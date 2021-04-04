@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_recycler_view.*
 import retrofit2.Call
 import retrofit2.Response
 
-private const val TAG = "RecyclerViewActivity"
+
 class RecyclerViewActivity : AppCompatActivity() {
 
     lateinit var recyclerViewAdapter: RecyclerViewAdapter
@@ -33,13 +33,13 @@ class RecyclerViewActivity : AppCompatActivity() {
             adapter = recyclerViewAdapter
 
             val decoration = DividerItemDecoration(applicationContext, VERTICAL)
-            addItemDecoration(decoration)
+            addItemDecoration(decoration) //  recyclerViewlayout razdelyat linear
         }
     }
 
     fun createData() {
         val retroInstance = RetroInstance.getRetroInstance().create(RetroService::class.java)
-        val call = retroInstance.getDataFromAPI("newyork")
+        val call = retroInstance.getDataFromAPI("israel")
         call.enqueue(object : retrofit2.Callback<RecyclerList> {
             override fun onResponse(call: Call<RecyclerList>, response: Response<RecyclerList>) {
                 if (response.isSuccessful) {
