@@ -1,5 +1,6 @@
 package com.aaa.mvvm_tutorial_reytroffit2
 
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,11 +31,15 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolde
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val tvTitle = view.tvTitle
-        val tvDec = view.tvDescription
+        val tvDesc = view.tvDescription
 
         fun bind(data: RecyclerData) {
-            tvTitle.text = data.title
-            tvDec.text = data.description
+            tvTitle.text = data.name
+            if(!TextUtils.isEmpty(data.description)) {
+                tvDesc.text = data.description
+            } else {
+                tvDesc.text = "No Desc available."
+            }
 
         }
     }
