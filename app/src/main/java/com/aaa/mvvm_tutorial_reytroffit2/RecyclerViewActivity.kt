@@ -3,15 +3,15 @@ package com.aaa.mvvm_tutorial_reytroffit2
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.aaa.mvvm_tutorial_reytroffit2.network.RetroInstance
-import com.aaa.mvvm_tutorial_reytroffit2.network.RetroService
+import com.aaa.mvvm_tutorial_reytroffit2.adapter.RecyclerViewAdapter
+import com.aaa.mvvm_tutorial_reytroffit2.data.RecyclerList
+import com.aaa.mvvm_tutorial_reytroffit2.viewmodel.RecyclerViewModel
 import kotlinx.android.synthetic.main.activity_recycler_view.*
-import retrofit2.Call
-import retrofit2.Response
 
 
 class RecyclerViewActivity : AppCompatActivity() {
@@ -37,34 +37,21 @@ class RecyclerViewActivity : AppCompatActivity() {
         }
     }
 
-    fun createData() {
-        val retroInstance = RetroInstance.getRetroInstance().create(RetroService::class.java)
-        val call = retroInstance.getDataFromAPI("israel")
-        call.enqueue(object : retrofit2.Callback<RecyclerList> {
-            override fun onResponse(call: Call<RecyclerList>, response: Response<RecyclerList>) {
-                if (response.isSuccessful) {
-                    recyclerViewAdapter.setListData(response.body()?.items!!)
-                    recyclerViewAdapter.notifyDataSetChanged()
-                }
+    private fun createData() {
+
+        val viewModel = ViewModelProvider (this).get(RecyclerViewModel :: class.java)
+        viewModel.getRecyclerListDataObserver().observe(this, Observer<RecyclerList>{
+            if (it != null) {
+                recyclerViewAdapter.setListData(it.items)
+                recyclerViewAdapter.notifyDataSetChanged()
+            } else {
+                Toast.makeText(this@RecyclerViewActivity, "Error in getting data from api.", Toast.LENGTH_LONG).show()
             }
 
-            override fun onFailure(call: Call<RecyclerList>, t: Throwable) {
-                Toast.makeText(
-                    this@RecyclerViewActivity,
-                    "Error in getting data from api.",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
         })
-//        val item = ArrayList<RecyclerData>()
-//        item.add(RecyclerData("java", "Java description"))
-//        item.add(RecyclerData("c++", "C++ description"))
-//        item.add(RecyclerData("Android", "Android description"))
-//        item.add(RecyclerData("iOS", "iOS description"))
-//        item.add(RecyclerData("PHP", "PHP description"))
-//        item.add(RecyclerData("Kotlin", "Kotlin description"))
-//
-//        recyclerViewAdapter.setListData(item)
-//        recyclerViewAdapter.notifyDataSetChanged()
+
+        searchButton.setOnClickListener {
+            viewModel.makeApiCall(searchBox.text.toString())
+        }
     }
 }

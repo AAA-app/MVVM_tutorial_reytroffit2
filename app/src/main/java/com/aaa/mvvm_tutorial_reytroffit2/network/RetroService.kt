@@ -1,6 +1,6 @@
 package com.aaa.mvvm_tutorial_reytroffit2.network
 
-import com.aaa.mvvm_tutorial_reytroffit2.RecyclerList
+import com.aaa.mvvm_tutorial_reytroffit2.data.RecyclerList
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

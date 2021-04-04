@@ -1,10 +1,12 @@
-package com.aaa.mvvm_tutorial_reytroffit2
+package com.aaa.mvvm_tutorial_reytroffit2.adapter
 
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.aaa.mvvm_tutorial_reytroffit2.R
+import com.aaa.mvvm_tutorial_reytroffit2.data.RecyclerData
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.recyclerview_row.view.*
 
@@ -31,9 +33,9 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolde
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val tvTitle = view.tvTitle
-        val tvDesc = view.tvDescription
-        val imageThumb = view.imageThumb
+        private val tvTitle = view.tvTitle
+        private val tvDesc = view.tvDescription
+        private val imageThumb = view.imageThumb
 
         fun bind(data: RecyclerData) {
             tvTitle.text = data.name

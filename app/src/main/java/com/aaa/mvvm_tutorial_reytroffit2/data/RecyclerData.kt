@@ -1,4 +1,4 @@
-package com.aaa.mvvm_tutorial_reytroffit2
+package com.aaa.mvvm_tutorial_reytroffit2.data
 
 
 data class RecyclerList(val items: ArrayList<RecyclerData>)
